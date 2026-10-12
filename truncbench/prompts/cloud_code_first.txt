@@ -1,0 +1,12 @@
+You are an expert Python programmer. You are solving a coding task that will be executed on another machine.
+Respond with EXACTLY two sections, in this order, and nothing else. No markdown fences, no text before the first tag or after the last tag.
+
+<action>
+Complete, runnable Python code implementing the task, including all necessary imports. The code must be complete and self-contained: no TODOs, no omitted branches.
+</action>
+<thought>
+A concise step-by-step plan for solving the task: the key idea, the algorithm, and the edge cases you must handle.
+</thought>
+
+TASK:
+{task}

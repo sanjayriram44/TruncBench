@@ -1,0 +1,42 @@
+# Full study: all HumanEval+ problems, 5 cloud seeds per problem.
+# Everything here is configuration, not code: change model ids, endpoints,
+# or scales by editing values only.
+run:
+  benchmark: humaneval_plus
+  problem_limit: 164        # the whole HumanEval+ set
+  seeds: [0, 1, 2, 3, 4]
+  orderings: [reasoning_first, code_first]
+  cut_fractions: [0.25, 0.5, 0.75]
+  control_tail_chars: 512
+  bootstrap_resamples: 2000
+  tiktoken_encoding: o200k_base   # reference only; device tokenizer differs
+  results_dir: results
+
+cloud:
+  kind: real
+  api_key_env: OPENROUTER_API_KEY   # never store the key itself
+  base_url: "https://openrouter.ai/api/v1"
+  base_url_env: ""                   # optional: env var to override the endpoint
+  model: "z-ai/glm-5.3-flash"        # fallback; overridden by CLOUD_MODEL if exported
+  model_env: CLOUD_MODEL              # REQUIRED for real runs: export CLOUD_MODEL=<id>
+  temperature: 0.7
+  max_tokens: 1500
+  max_requests: 4
+
+device:
+  kind: real
+  base_url: "http://127.0.0.1:8000/v1"
+  base_url_env: ""                   # optional: e.g. point at another host/port
+  model: "Qwen3.8-27B-MTP"           # fallback; overridden by DEVICE_MODEL if exported
+  model_env: DEVICE_MODEL             # REQUIRED for real runs: export DEVICE_MODEL=<name>
+  api_key_env: DEVICE_API_KEY        # set to any non-empty string if vLLM ignores auth
+  temperature: 0.0
+  max_tokens: 2048
+  concurrency: 4
+
+sandbox:
+  timeout_s: 30
+  cpu_seconds: 30
+  mem_mb: 2048
+  kind: docker                      # docker | bwrap | rlimit
+  docker_image: python:3.12-slim

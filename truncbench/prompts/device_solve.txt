@@ -1,0 +1,6 @@
+Solve this Python coding task on your own.
+
+Output ONLY a fenced Python code block containing the complete, runnable solution, including all necessary imports. Do not output explanations or tests.
+
+TASK:
+{task}

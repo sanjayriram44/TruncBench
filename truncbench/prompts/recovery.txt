@@ -1,0 +1,14 @@
+You will receive a coding task and a message from a remote assistant. The message contains a plan for the task and the solution code. The message may have been cut off during transmission: part of it may be incomplete or missing, and it may end in the middle of a line with no error flag.
+
+Your job: output the COMPLETE solution code for the task.
+
+Rules:
+- If the code in the message looks complete and correct, return it unchanged (you may fix only obvious truncation artifacts such as an unfinished final line or an unmatched bracket).
+- If the code is cut off or missing entirely, reconstruct the complete solution from the task and from whatever plan text arrived.
+- Do not add explanations, tests, or markdown fences. Output ONLY the full Python solution, starting with its imports.
+
+TASK:
+{task}
+
+RECEIVED MESSAGE (may be truncated):
+{message}

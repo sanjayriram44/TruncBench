@@ -1,0 +1,43 @@
+# Pilot configuration. All endpoints/model ids are config, never code.
+# API keys live ONLY in environment variables, referenced by name here.
+
+run:
+  benchmark: humaneval_plus        # humaneval_plus | mbpp_plus
+  problem_limit: 50
+  seeds: [0, 1, 2]
+  orderings: [reasoning_first, code_first]
+  cut_fractions: [0.25, 0.5, 0.75]
+  control_tail_chars: 512          # synthetic footnote length for the control cut
+  tiktoken_encoding: o200k_base    # reference token counter only
+  results_dir: results
+  bootstrap_resamples: 1000
+
+cloud:
+  kind: mock                        # mock (offline) | real (OpenAI-compatible API)
+  base_url: https://openrouter.ai/api/v1
+  model: z-ai/glm-5.3-flash        # fallback; overridden by CLOUD_MODEL if exported
+  model_env: CLOUD_MODEL            # export CLOUD_MODEL=<openrouter model id> to override
+  api_key_env: OPENROUTER_API_KEY   # name of the env var holding the key
+  temperature: 0.7
+  top_p: 0.95
+  max_tokens: 2048
+  max_requests: 4
+
+device:
+  kind: mock                        # mock (offline) | real (local vLLM)
+  base_url: http://127.0.0.1:8000/v1
+  model: Qwen3.8-27B-MTP           # fallback; overridden by DEVICE_MODEL if exported
+  model_env: DEVICE_MODEL           # export DEVICE_MODEL=<served model name> to override
+  api_key_env: VLLM_API_KEY         # local vLLM: any non-empty value works
+  temperature: 0.0                  # greedy: removes device-side sampling variance
+  max_tokens: 4096
+  max_context: 98304
+  concurrency: 4
+
+sandbox:
+  timeout_s: 30
+  mem_mb: 2048
+  cpu_seconds: 30                   # rlimit mode only; docker mode: --cpus 1 + wall clock
+  kind: docker                      # docker | bwrap | rlimit
+  docker_image: python:3.12-slim    # pinned execution environment for candidate code
+  bubblewrap_bin: bwrap             # used only if kind: bwrap
